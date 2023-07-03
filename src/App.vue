@@ -9,6 +9,7 @@
         :price-from.sync="filterPriceForm"
         :price-to.sync="filterPriceTo"
         :category-id.sync="filterCategoryId"
+        :item-color.sync="itemColor"
       />
       <section class="catalog">
         <ProductList :products="products" />
@@ -26,12 +27,17 @@ import ProductFilter from './components/ProductFilter.vue';
 
 export default {
   name: 'App',
-  components: { ProductList, BasePagination, ProductFilter },
+  components: {
+    ProductList,
+    BasePagination,
+    ProductFilter,
+  },
   data() {
     return {
       filterPriceForm: 0,
       filterPriceTo: 0,
       filterCategoryId: 0,
+      itemColor: '',
 
       page: 1,
       productsPerPage: 6,
@@ -54,7 +60,9 @@ export default {
           (product) => product.categoryId === this.filterCategoryId,
         );
       }
-
+      if (this.itemColor !== '') {
+        filteredProducts = filteredProducts.filter((product) => product.colors.includes(this.itemColor));
+      }
       return filteredProducts;
     },
     products() {
