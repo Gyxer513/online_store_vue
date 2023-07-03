@@ -5,6 +5,7 @@ export default [
     title: 'Монитор Huawei 34"',
     price: 35000,
     image: 'img/monitor.webp',
+    colors: ['#ffbe15', '#000'],
   },
   {
     id: 2,
@@ -12,7 +13,7 @@ export default [
     title: 'Кондиционер для белья',
     price: 449,
     image: 'img/condi.webp',
-    color: ''
+    colors: ['#ffbe15'],
   },
   {
     id: 3,
@@ -20,6 +21,7 @@ export default [
     title: 'Дождевик мужской',
     price: 1290,
     image: 'img/rain.webp',
+    colors: ['#ffbe15'],
   },
   {
     id: 4,
@@ -27,6 +29,7 @@ export default [
     title: 'Радионяня Motorola MBP16',
     price: 3690,
     image: 'img/radio.jpg',
+    colors: ['#ffbe15'],
   },
   {
     id: 5,
@@ -34,6 +37,7 @@ export default [
     title: 'Ультразвуковая зубная щётка Playbrush Smart Sonic',
     price: 5660,
     image: 'img/toothbrush.jpg',
+    colors: ['#ffbe15'],
   },
   {
     id: 6,
@@ -41,6 +45,7 @@ export default [
     title: 'Смартфон Xiaomi Mi Mix 3 6/128GB',
     price: 21790,
     image: 'img/phone.jpg',
+    colors: ['#ffbe15'],
   },
   {
     id: 7,
@@ -48,6 +53,7 @@ export default [
     title: 'Электроскейт Razor Cruiser',
     price: 24690,
     image: 'img/board.jpg',
+    colors: ['#ffbe15'],
   },
   {
     id: 8,
@@ -55,6 +61,7 @@ export default [
     title: 'Смартфон Xiaomi Mi A3 4/64GB Android One',
     price: 14960,
     image: 'img/phone-2.jpg',
+    colors: ['#ffbe15'],
   },
   {
     id: 9,
@@ -62,12 +69,14 @@ export default [
     title: 'Смартфон Xiaomi Redmi 6/128GB',
     price: 8960,
     image: 'img/phone-3.jpg',
+    colors: ['#ffbe15'],
   },
   {
     id: 10,
     title: 'Электрический дрифт-карт Razor Crazy Cart',
     price: 39900,
     image: 'img/bicycle.jpg',
+    colors: ['#8be000'],
   },
   {
     id: 11,
@@ -75,6 +84,7 @@ export default [
     title: 'Гироскутер Razor Hovertrax 2.0',
     price: 34900,
     image: 'img/wheels.jpg',
+    colors: ['#8be000'],
   },
   {
     id: 12,
@@ -82,6 +92,7 @@ export default [
     title: 'Детский трюковой самокат Razor Grom',
     price: 4990,
     image: 'img/scooter.jpg',
+    colors: ['#000'],
   },
   {
     id: 13,
@@ -89,6 +100,7 @@ export default [
     title: 'Роллерсёрф Razor RipStik Air Pro',
     price: 6690,
     image: 'img/ripstik.jpg',
+    colors: ['#000'],
   },
   {
     id: 14,
@@ -96,6 +108,7 @@ export default [
     title: 'Наушники AirPods с беспроводным зарядным футляром',
     price: 16590,
     image: 'img/airpods.jpg',
+    colors: ['#000'],
   },
   {
     id: 15,
@@ -103,6 +116,7 @@ export default [
     title: 'Наушники Sony',
     price: 30690,
     image: 'img/headphones.jpg',
+    colors: ['#000'],
   },
 
 ];

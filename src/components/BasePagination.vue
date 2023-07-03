@@ -7,7 +7,6 @@
         :class="{ ' pagination__link--disabled': page === 1 }"
         aria-label="Предыдущая страница"
         @click.prevent="paginate(page - 1)"
-        :disabled="pageNumber === 1"
       >
         <svg width="8" height="14" fill="currentColor">
           <use xlink:href="#icon-arrow-left"></use>
@@ -20,7 +19,6 @@
         class="pagination__link"
         :class="{ 'pagination__link--current': pageNumber === page }"
         @click.prevent="paginate(pageNumber)"
-        :disabled="pageNumber === page"
       >
         {{ pageNumber }}
       </a>
