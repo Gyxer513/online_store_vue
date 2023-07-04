@@ -1,7 +1,7 @@
 <template>
   <ul class="catalog__list">
-    <li class="catalog__item" v-for="(product) in products" :key="product.id">
-      <a class="catalog__pic" href="#">
+    <li class="catalog__item" v-for="product in products" :key="product.id">
+      <a class="catalog__pic" href="#" @click.prevent="gotoPage('product', { id: product.id })">
         <img :src="product.image" :alt="product.title" />
       </a>
       <h3 class="catalog__title">
@@ -9,15 +9,12 @@
           {{ product.title }}
         </a>
       </h3>
-      <span class="catalog__price"> {{ product.price }} ₽. </span>
-      <ul class="colors colors--black" >
-        <li class="colors__item" v-for="(color) in product.colors" :key="color">
+      <span class="catalog__price"> {{ product.price | numberFormat }} ₽. </span>
+      <ul class="colors colors--black">
+        <li class="colors__item" v-for="color in product.colors" :key="color">
           <label class="colors__label">
-            <input
-              class="colors__radio sr-only"
-              type="radio"
-            />
-            <span class="colors__value" :style="{'background-color': color}"></span>
+            <input class="colors__radio sr-only" type="radio" />
+            <span class="colors__value" :style="{ 'background-color': color }"></span>
           </label>
         </li>
       </ul>
@@ -26,11 +23,20 @@
 </template>
 
 <script>
+import gotoPage from '@/helpers/gotoPage';
+import numberFormat from '@/helpers/numberFormat';
+
 export default {
   data() {
     return {
       color: '#73B6EA',
     };
+  },
+  filters: {
+    numberFormat,
+  },
+  methods: {
+    gotoPage,
   },
   props: ['products'],
 };

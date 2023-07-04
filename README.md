@@ -1,4 +1,3 @@
-# 03_catalog
 
 ## Project setup
 ```
