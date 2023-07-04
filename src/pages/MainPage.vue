@@ -12,7 +12,7 @@
         :item-color.sync="itemColor"
       />
       <section class="catalog">
-        <ProductList :products="products" />
+        <ProductList :products="products"/>
         <BasePagination v-model="page" :count="countProducts" :per-page="productsPerPage" />
       </section>
     </div>

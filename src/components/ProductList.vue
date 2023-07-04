@@ -1,7 +1,6 @@
 <template>
   <section class="catalog">
-    <ProductItem :products="products"/>
-
+    <ProductItem :products="products" />
   </section>
 </template>
 <script>
