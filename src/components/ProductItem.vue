@@ -1,13 +1,13 @@
 <template>
   <ul class="catalog__list">
     <li class="catalog__item" v-for="product in products" :key="product.id">
-      <a class="catalog__pic" href="#" @click.prevent="gotoPage('product', { id: product.id })">
+      <router-link class="catalog__pic" :to="{ name: 'product', params: { id: product.id } }">
         <img :src="product.image" :alt="product.title" />
-      </a>
+      </router-link>
       <h3 class="catalog__title">
-        <a href="#">
+        <router-link :to="{ name: 'product', params: { id: product.id } }">
           {{ product.title }}
-        </a>
+        </router-link>
       </h3>
       <span class="catalog__price"> {{ product.price | numberFormat }} ₽. </span>
       <ul class="colors colors--black">
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import gotoPage from '@/helpers/gotoPage';
 import numberFormat from '@/helpers/numberFormat';
 
 export default {
@@ -34,9 +33,6 @@ export default {
   },
   filters: {
     numberFormat,
-  },
-  methods: {
-    gotoPage,
   },
   props: ['products'],
 };
