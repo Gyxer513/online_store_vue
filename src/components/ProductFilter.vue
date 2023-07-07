@@ -22,8 +22,8 @@
           <label class="form__label form__label--select">
             <select class="form__select" type="text" name="category" v-model.number="currentCategoryId">
               <option value="0">Все категории</option>
-              <option :value="category.id" v-for="category in categories" :key="category.id">
-                {{ category.name }}
+              <option :value="category" v-for="category in categories" :key="category.id">
+                {{ category.title }}
               </option>
             </select>
           </label>
@@ -32,10 +32,10 @@
         <fieldset class="form__block">
           <legend class="form__legend">Цвет</legend>
           <ul class="colors">
-            <li class="colors__item" v-for="color in colors" :key="color">
+            <li class="colors__item" v-for="color in colors" :key="color.id">
               <label class="colors__label">
-                <input class="colors__radio sr-only" type="radio" name="color" :value=color v-model="currentItemColor" />
-                <span class="colors__value" :style="{'background-color': color}"> </span>
+                <input class="colors__radio sr-only" type="radio" name="color" :value=color.id v-model="currentItemColor" />
+                <span class="colors__value" :style="{'background-color': color.code}"> </span>
               </label>
             </li>
           </ul>
@@ -119,8 +119,8 @@
 </template>
 
 <script>
-import categories from '@/data/categories';
-import colors from '@/data/colors';
+import axios from 'axios';
+import BASE_URL from '@/data/utils';
 
 export default {
   data() {
@@ -129,16 +129,21 @@ export default {
       currentPriceTo: 0,
       currentCategoryId: 0,
       currentItemColor: '',
+      colorsData: null,
+      categoriesData: null,
     };
   },
   props: ['categoryId', 'priceFrom', 'priceTo', 'itemColor'],
   computed: {
-
     categories() {
-      return categories;
+      return this.categoriesData
+        ? this.categoriesData.data.items
+        : [];
     },
     colors() {
-      return colors;
+      return this.colorsData
+        ? this.colorsData.data.items
+        : [];
     },
   },
   watch: {
@@ -156,6 +161,16 @@ export default {
     },
   },
   methods: {
+    loadCategories() {
+      axios.get(`${BASE_URL}/api/productCategories`).then((response) => {
+        this.categoriesData = response;
+      });
+    },
+    loadColors() {
+      axios.get(`${BASE_URL}/api/colors`).then((response) => {
+        this.colorsData = response;
+      });
+    },
     submit() {
       this.$emit('update:priceFrom', this.currentPriceForm);
       this.$emit('update:priceTo', this.currentPriceTo);
@@ -168,6 +183,10 @@ export default {
       this.$emit('update:categiryId', 0);
       this.$emit('update:itemColor', '');
     },
+  },
+  created() {
+    this.loadColors();
+    this.loadCategories();
   },
 };
 </script>
