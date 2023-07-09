@@ -11,10 +11,10 @@
       </h3>
       <span class="catalog__price"> {{ product.price | numberFormat }} ₽. </span>
       <ul class="colors colors--black">
-        <li class="colors__item" v-for="color in product.colors" :key="color">
+        <li class="colors__item" v-for="color in product.colors" :key="color.code">
           <label class="colors__label">
             <input class="colors__radio sr-only" type="radio" />
-            <span class="colors__value" :style="{ 'background-color': color }"></span>
+            <span class="colors__value" :style="{ 'background-color': color.code }"></span>
           </label>
         </li>
       </ul>
