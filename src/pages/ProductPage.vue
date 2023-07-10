@@ -1,6 +1,13 @@
 <template>
-  <main class="content container">
-    <div class="content__top">
+  <main>
+    <div v-if="productLoading">Загрузка товара...</div>
+        <div v-if="productLoadingFaled">Произошла ошибка
+          <button @click.prevent = 'loadProducts'>
+            Перезагрузить страницу
+          </button>
+          </div>
+  <main class="content container" v-if="productData">
+    <div class="content__top" >
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
           <router-link class="breadcrumbs__link" :to="{ name: 'main' }"> Каталог </router-link>
@@ -22,9 +29,9 @@
           <img
             width="570"
             height="570"
-            :src="product.image"
+            :src="product.image.file.url"
             srcset="img/phone-square@2x.jpg 2x"
-            :alt="product.name"
+            :alt="product.title"
           />
         </div>
         <!--         <ul class="pics__list">
@@ -228,31 +235,32 @@
       </div>
     </section>
   </main>
+  </main>
 </template>
 
 <script>
-import products from '@/data/products';
-import categories from '@/data/categories';
 import numberFormat from '@/helpers/numberFormat';
+import axios from 'axios';
+import BASE_URL from '@/data/utils';
 
 export default {
   data() {
-    return { amount: 1 };
+    return {
+      amount: 1,
+      productData: null,
+      productLoading: false,
+      productLoadingFalied: false,
+    };
   },
   filters: {
     numberFormat,
   },
-  watch: {
-    emount(value) {
-      this.amount = value;
-    },
-  },
   computed: {
     product() {
-      return products.find((product) => product.id === +this.$route.params.id);
+      return this.productData;
     },
     category() {
-      return categories.find((category) => category.id === this.product.categoryId);
+      return this.productData.category;
     },
   },
   methods: {
@@ -267,6 +275,30 @@ export default {
         productId: this.product.id,
         amount: this.amount,
       });
+    },
+    loadProduct() {
+      this.productLoading = true;
+      this.productLoadingFalied = false;
+      axios
+        .get(`${BASE_URL}/api/products/${this.$route.params.id}`)
+        .then((response) => {
+          this.productData = response.data;
+        })
+        .catch(() => { this.productLoadingFalied = true; })
+        .then(() => {
+          this.productLoading = false;
+        });
+    },
+  },
+  watch: {
+    '$route.params.id': {
+      handler() {
+        this.loadProduct();
+      },
+      immediate: true,
+    },
+    emount(value) {
+      this.amount = value;
     },
   },
 };
