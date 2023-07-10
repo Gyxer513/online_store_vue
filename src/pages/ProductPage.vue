@@ -1,5 +1,5 @@
 <template>
-  <main>
+  <div>
     <div v-if="productLoading">Загрузка товара...</div>
         <div v-if="productLoadingFaled">Произошла ошибка
           <button @click.prevent = 'loadProducts'>
@@ -235,7 +235,7 @@
       </div>
     </section>
   </main>
-  </main>
+  </div>
 </template>
 
 <script>
