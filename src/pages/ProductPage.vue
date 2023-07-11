@@ -1,7 +1,7 @@
 <template>
-  <div>
+  <main>
     <div v-if="productLoading">Загрузка товара...</div>
-        <div v-if="productLoadingFaled">Произошла ошибка
+        <div v-if="productLoadingFalied">Произошла ошибка
           <button @click.prevent = 'loadProducts'>
             Перезагрузить страницу
           </button>
@@ -92,7 +92,7 @@
             <fieldset class="form__block">
               <legend class="form__legend">Цвет:</legend>
               <ul class="colors">
-                <li class="colors__item">
+                <li class="colors__item" v-for="color in colors" :key="color.id">
                   <label class="colors__label">
                     <input
                       class="colors__radio sr-only"
@@ -100,29 +100,8 @@
                       name="color-item"
                       value="blue"
                     />
-                    <span class="colors__value" style="background-color: #73b6ea"> </span>
+                    <span class="colors__value" :style="{'background-color': color.code}"> </span>
                   </label>
-                </li>
-                <li class="colors__item">
-                  <label class="colors__label">
-                    <input
-                      class="colors__radio sr-only"
-                      type="radio"
-                      name="color-item"
-                      value="yellow"
-                    />
-                    <span class="colors__value" style="background-color: #ffbe15"> </span>
-                  </label>
-                </li>
-                <li class="colors__item">
-                  <label class="colors__label">
-                    <input
-                      class="colors__radio sr-only"
-                      type="radio"
-                      name="color-item"
-                      value="gray" />
-                    <span class="colors__value" style="background-color: #939393"> </span
-                  ></label>
                 </li>
               </ul>
             </fieldset>
@@ -174,8 +153,10 @@
                 </button>
               </div>
 
-              <button class="button button--primery" type="submit">В корзину</button>
+              <button class="button button--primery" type="submit" :disabled="productAddSending">В корзину</button>
             </div>
+            <div v-if="productAdded">Товар добавлен в корзину</div>
+            <div v-if="productAddSending">Добавление товара в корзину...</div>
           </form>
         </div>
       </div>
@@ -235,13 +216,14 @@
       </div>
     </section>
   </main>
-  </div>
+  </main>
 </template>
 
 <script>
 import numberFormat from '@/helpers/numberFormat';
 import axios from 'axios';
 import BASE_URL from '@/data/utils';
+import { mapActions } from 'vuex';
 
 export default {
   data() {
@@ -250,6 +232,10 @@ export default {
       productData: null,
       productLoading: false,
       productLoadingFalied: false,
+      productColors: null,
+
+      productAdded: false,
+      productAddSending: false,
     };
   },
   filters: {
@@ -262,8 +248,14 @@ export default {
     category() {
       return this.productData.category;
     },
+    colors() {
+      return this.productData.colors
+        ? this.productData.colors
+        : [];
+    },
   },
   methods: {
+    ...mapActions(['addProductToCart']),
     increment() {
       this.$emit('update:amount', (this.amount += 1));
     },
@@ -271,10 +263,15 @@ export default {
       this.$emit('update:amount', (this.amount -= 1));
     },
     addToCart() {
-      this.$store.commit('addProductToCart', {
+      this.productAdded = false;
+      this.productAddSending = true;
+      this.addProductToCart({
         productId: this.product.id,
         amount: this.amount,
-      });
+      }).then(() => {
+        this.productAdded = true;
+        this.productAddSending = false;
+      }).catch((error) => console.warn(error.message));
     },
     loadProduct() {
       this.productLoading = true;
@@ -287,7 +284,8 @@ export default {
         .catch(() => { this.productLoadingFalied = true; })
         .then(() => {
           this.productLoading = false;
-        });
+        })
+        .catch((error) => console.warn(error.message));
     },
   },
   watch: {
