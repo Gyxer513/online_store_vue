@@ -164,12 +164,12 @@ export default {
     loadCategories() {
       axios.get(`${BASE_URL}/api/productCategories`).then((response) => {
         this.categoriesData = response;
-      });
+      }).catch((error) => console.warn(error.message));
     },
     loadColors() {
       axios.get(`${BASE_URL}/api/colors`).then((response) => {
         this.colorsData = response;
-      });
+      }).catch((error) => console.warn(error.message));
     },
     submit() {
       this.$emit('update:priceFrom', this.currentPriceForm);

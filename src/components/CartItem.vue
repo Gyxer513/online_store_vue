@@ -2,18 +2,18 @@
   <li class="cart__item product">
     <div class="product__pic">
       <img
-        :src="item.product.image"
+        :src="item.product.product.image.file.url"
         width="120"
         height="120"
         srcset="img/phone-square-3@2x.jpg 2x"
         alt="item.product.name"
       />
     </div>
-    <h3 class="product__title">{{ item.product.name }}</h3>
-    <span class="product__code"> {{ item.product.id }} </span>
+    <h3 class="product__title">{{ item.product.product.title }}</h3>
+    <span class="product__code"> {{ item.product.product.id }} </span>
 
     <div class="product__counter form__counter">
-      <button type="button" aria-label="Убрать один товар">
+      <button type="button" aria-label="Убрать один товар" @click="decrement">
         <svg width="10" height="10" fill="currentColor">
           <use xlink:href="#icon-minus"></use>
         </svg>
@@ -24,6 +24,7 @@
       <button
         type="button"
         aria-label="Добавить один товар"
+        @click="increment"
       >
         <svg width="10" height="10" fill="currentColor">
           <use xlink:href="#icon-plus"></use>
@@ -33,7 +34,7 @@
 
     <b class="product__price"> {{ (item.amount * item.product.price) | numberFormat }} ₽</b>
 
-    <button class="product__del button-del" type="button" aria-label="Удалить товар из корзины" @click.prevent="deleteProduct(item.productId)">
+    <button class="product__del button-del" type="button" aria-label="Удалить товар из корзины" @click.prevent="deleteProduct">
       <svg width="20" height="20" fill="currentColor">
         <use xlink:href="#icon-close"></use>
       </svg>
@@ -43,7 +44,7 @@
 
 <script>
 import numberFormat from '@/helpers/numberFormat';
-import { mapMutations } from 'vuex';
+import { mapActions } from 'vuex';
 
 export default {
   filters: {
@@ -56,7 +57,7 @@ export default {
         return this.item.amount;
       },
       set(value) {
-        return this.$store.commit('updateCartProductAmount', {
+        return this.$store.dispatch('updateCartProductAmount', {
           productId: this.item.productId,
           amount: value,
         });
@@ -64,7 +65,18 @@ export default {
     },
   },
   methods: {
-    ...mapMutations({ deleteProduct: 'deleteCartProduct' }),
+    ...mapActions(['deleteCartProduct']),
+    increment() {
+      this.$emit('update:amount', (this.amount += 1));
+    },
+    decrement() {
+      this.$emit('update:amount', (this.amount -= 1));
+    },
+    deleteProduct() {
+      this.deleteCartProduct(
+        this.item.productId,
+      ).catch((error) => console.warn(error.message));
+    },
   },
 };
 </script>

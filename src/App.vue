@@ -96,18 +96,30 @@
           </li>
         </ul>
 
-        <span class="footer__copyright"> © 2020 Технозавррр </span>
+        <span class="footer__copyright"> © 2023 Технозавррр </span>
       </div>
     </footer>
   </main>
 </template>
 
 <script>
+import { mapActions, mapMutations } from 'vuex';
 import CartIndicator from './components/CartIndicator.vue';
 
 export default {
   components: {
     CartIndicator,
+  },
+  created() {
+    const userAccessKey = localStorage.getItem('userAccessKey');
+    if (userAccessKey) {
+      this.updateUserAccessKey(userAccessKey);
+    }
+    this.loadCart();
+  },
+  methods: {
+    ...mapActions(['loadCart']),
+    ...mapMutations(['updateUserAccessKey']),
   },
 };
 </script>
