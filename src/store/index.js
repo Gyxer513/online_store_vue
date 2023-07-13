@@ -10,8 +10,12 @@ export default new Vuex.Store({
     cartProducts: [],
     userAccessKey: null,
     cartProductsData: [],
+    orderInfo: null,
   },
   mutations: {
+    updateOrderInfo(state, orderInfo) {
+      state.orderInfo = orderInfo;
+    },
     resetCart(state) {
       state.cartProducts = [];
       state.cartProductsData = [];
@@ -56,6 +60,9 @@ export default new Vuex.Store({
     },
     cartTotalAmount(state, getters) {
       return getters.cartDetailProducts.reduce((acc, item) => item.amount + acc, 0);
+    },
+    getOrderInfo(state) {
+      return state.orderInfo;
     },
   },
   actions: {
