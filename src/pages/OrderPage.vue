@@ -1,6 +1,7 @@
 <template>
       <main class="content container">
-    <div class="content__top">
+        <div v-if="!isLoading">Загрузка товаров</div>
+    <div class="content__top" v-if="isLoading">
       <ul class="breadcrumbs">
         <li class="breadcrumbs__item">
           <a class="breadcrumbs__link" href="index.html">
@@ -128,6 +129,7 @@ export default {
       formData: {},
       formError: {},
       formErrorMessage: '',
+      isLoading: false,
     };
   },
   computed: {
@@ -136,6 +138,7 @@ export default {
   methods: {
     order() {
       this.formError = {};
+      this.isLoading = true;
       axios.post(`${BASE_URL}/api/orders`, {
         ...this.formData,
       }, {
@@ -150,6 +153,7 @@ export default {
         .catch(((error) => {
           this.formError = error.response.data.error.request || {};
           this.formErrorMessage = error.data.message;
+          this.isLoading = false;
         }));
     },
   },

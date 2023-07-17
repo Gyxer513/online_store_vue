@@ -33,7 +33,7 @@ const routes = [
   {
     name: 'orderInfo',
     component: OrderInfoPage,
-    path: '/order/:id',
+    path: '/orders/:id',
   },
 
   {

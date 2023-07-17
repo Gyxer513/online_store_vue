@@ -66,6 +66,17 @@ export default new Vuex.Store({
     },
   },
   actions: {
+    loadOrderInfo(context, orderId) {
+      return axios
+        .get(`${BASE_URL}/api/orders/${orderId}`, {
+          params: {
+            userAccessKey: context.state.userAccessKey,
+          },
+        })
+        .then((response) => {
+          context.commit('updateOrderInfo', response.data);
+        });
+    },
     loadCart(context) {
       return axios
         .get(`${BASE_URL}/api/baskets`, {
@@ -115,24 +126,21 @@ export default new Vuex.Store({
         )
         .then((response) => {
           context.commit('updateCartProductsData', response.data.items);
-        }).catch(() => {
+        })
+        .catch(() => {
           context.commit('syncCartProducts');
         });
     },
     deleteCartProduct(context, productId) {
       context.commit('deleteCartProduct', productId);
-      return axios
-        .delete(
-          `${BASE_URL}/api/baskets/products`,
-          {
-            params: {
-              userAccessKey: context.state.userAccessKey,
-            },
-            data: {
-              productId,
-            },
-          },
-        );
+      return axios.delete(`${BASE_URL}/api/baskets/products`, {
+        params: {
+          userAccessKey: context.state.userAccessKey,
+        },
+        data: {
+          productId,
+        },
+      });
     },
   },
 });
