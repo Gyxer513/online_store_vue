@@ -6,10 +6,10 @@
 
 # Используемые технологии:
 
-_Vue 2.6.14_
-_Vuex_
-_Axios_
-_vue-router_
+- _Vue 2.6.14_ <br>
+- _Vuex_ <br>
+- _Axios_ <br>
+- _vue-router_ <br>
 
 ## [GH-PAGES](https://gyxer513.github.io/online_store_vue/dist/index.html#/ "Ссылка GH-Pages")
 
