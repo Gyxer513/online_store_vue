@@ -5,7 +5,6 @@
         :src="item.product.product.image.file.url"
         width="120"
         height="120"
-        srcset="img/phone-square-3@2x.jpg 2x"
         alt="item.product.name"
       />
     </div>
