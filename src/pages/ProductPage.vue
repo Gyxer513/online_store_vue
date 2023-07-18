@@ -30,7 +30,6 @@
             width="570"
             height="570"
             :src="product.image.file.url"
-            srcset="img/phone-square@2x.jpg 2x"
             :alt="product.title"
           />
         </div>
